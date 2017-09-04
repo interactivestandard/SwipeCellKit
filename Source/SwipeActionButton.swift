@@ -31,7 +31,7 @@ class SwipeActionButton: UIButton {
         self.init(frame: .zero)
 
         contentHorizontalAlignment = .center
-        
+
         tintColor = action.textColor ?? .white
         highlightedBackgroundColor = action.highlightedBackgroundColor ?? UIColor.black.withAlphaComponent(0.1)
 
@@ -39,15 +39,19 @@ class SwipeActionButton: UIButton {
         titleLabel?.textAlignment = .center
         titleLabel?.lineBreakMode = .byWordWrapping
         titleLabel?.numberOfLines = 0
-        
+
         accessibilityLabel = action.accessibilityLabel
-        
+
         setTitle(action.title, for: .normal)
         setTitleColor(tintColor, for: .normal)
-        setImage(action.image, for: .normal)
+        setImage(action.image?.withRenderingMode(.alwaysTemplate), for: .normal)
         setImage(action.highlightedImage ?? action.image, for: .highlighted)
+
+        imageView?.contentMode = .scaleAspectFit
+        imageView?.image = imageView?.image!.withRenderingMode(.alwaysTemplate)
+        imageView?.tintColor = UIColor.white
     }
-    
+
     override var isHighlighted: Bool {
         didSet {
             guard shouldHighlight else { return }
@@ -71,15 +75,11 @@ class SwipeActionButton: UIButton {
     }
     
     override func titleRect(forContentRect contentRect: CGRect) -> CGRect {
-        var rect = contentRect.center(size: titleBoundingRect(with: contentRect.size).size)
-        rect.origin.y = alignmentRect.minY + maximumImageHeight + currentSpacing
-        return rect.integral
+        return CGRect(x: 8.0, y: 40.0, width: self.bounds.width - 16.0, height: 30.0)
     }
     
     override func imageRect(forContentRect contentRect: CGRect) -> CGRect {
-        var rect = contentRect.center(size: currentImage?.size ?? .zero)
-        rect.origin.y = alignmentRect.minY + (maximumImageHeight - rect.height) / 2
-        return rect
+        return CGRect(x: 8.0, y: 10.0, width: self.bounds.width - 16.0, height: 40.0)
     }
 }
 
