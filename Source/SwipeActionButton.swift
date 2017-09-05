@@ -48,7 +48,6 @@ class SwipeActionButton: UIButton {
         setImage(action.highlightedImage ?? action.image, for: .highlighted)
 
         imageView?.contentMode = .scaleAspectFit
-        imageView?.image = imageView?.image!.withRenderingMode(.alwaysTemplate)
         imageView?.tintColor = UIColor.white
     }
 
